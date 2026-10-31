@@ -1,0 +1,118 @@
+
+<div class="deposit-page">
+  <header class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <a routerLink="/dashboard">Dashboard</a>
+        <span>/</span>
+        <strong>Deposit</strong>
+      </div>
+      <h1>Deposit Money<span>.</span></h1>
+      <p class="subtitle">Add funds to your account securely and easily.</p>
+    </div>
+    <div class="secure-badge"><span></span> Secure transaction</div>
+  </header>
+
+  <section class="deposit-layout">
+    <div class="deposit-main">
+      <div class="form-card">
+        <div class="card-heading">
+          <div class="heading-icon">↓</div>
+          <div>
+            <h2>Add money to your account</h2>
+            <p>Enter the amount you want to deposit.</p>
+          </div>
+        </div>
+
+        <div class="amount-section">
+          <label for="amount">Deposit amount</label>
+          <div class="amount-input">
+            <span>₹</span>
+            <input
+              id="amount"
+              type="number"
+              min="1"
+              max="1000000"
+              step="0.01"
+              placeholder="0.00"
+              [(ngModel)]="amount"
+              [disabled]="loading"
+            />
+            <span class="currency-label">INR</span>
+          </div>
+          <p class="input-hint">Enter an amount between ₹1 and ₹10,00,000.</p>
+        </div>
+
+        <div class="quick-amounts">
+          <label>Quick select</label>
+          <div class="amount-options">
+            <button type="button" (click)="setAmount(500)" [class.selected]="amount === 500" [disabled]="loading">₹500</button>
+            <button type="button" (click)="setAmount(1000)" [class.selected]="amount === 1000" [disabled]="loading">₹1,000</button>
+            <button type="button" (click)="setAmount(2000)" [class.selected]="amount === 2000" [disabled]="loading">₹2,000</button>
+            <button type="button" (click)="setAmount(5000)" [class.selected]="amount === 5000" [disabled]="loading">₹5,000</button>
+          </div>
+        </div>
+
+        @if (errorMessage) {
+          <div class="feedback error">
+            <span>!</span>
+            <p>{{ errorMessage }}</p>
+          </div>
+        }
+
+        @if (successMessage) {
+          <div class="feedback success">
+            <span>✓</span>
+            <div>
+              <strong>Deposit request successful</strong>
+              <p>{{ successMessage }}</p>
+              @if (balance !== null) {
+                <p>Reported balance: {{ balance | currency:'INR':'symbol':'1.2-2':'en-IN' }}</p>
+              }
+              <a routerLink="/transactions">View transaction history →</a>
+            </div>
+          </div>
+        }
+
+        <button
+          type="button"
+          class="deposit-button"
+          (click)="depositMoney()"
+          [disabled]="loading"
+        >
+          @if (loading) {
+            <span class="button-loader"></span>
+            Processing deposit...
+          } @else {
+            Confirm deposit <span>→</span>
+          }
+        </button>
+
+        <p class="disclaimer">
+          By continuing, you confirm that the deposit amount is correct.
+        </p>
+      </div>
+    </div>
+
+    <aside class="deposit-sidebar">
+      <div class="info-card">
+        <div class="info-icon">🛡</div>
+        <h3>Bank-grade security</h3>
+        <p>Your request is sent through your authenticated session.</p>
+        <div class="info-divider"></div>
+        <div class="security-point"><span>✓</span> Authenticated request</div>
+        <div class="security-point"><span>✓</span> Server-side processing</div>
+        <div class="security-point"><span>✓</span> Transaction history</div>
+      </div>
+
+      <div class="help-card">
+        <div class="help-icon">?</div>
+        <div>
+          <h3>Need assistance?</h3>
+          <p>Review your account activity if you need to verify a deposit.</p>
+          <a routerLink="/transactions">View transactions →</a>
+        </div>
+      </div>
+    </aside>
+  </section>
+</div>

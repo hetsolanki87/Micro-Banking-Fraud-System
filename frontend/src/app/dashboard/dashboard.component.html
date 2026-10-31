@@ -1,0 +1,301 @@
+
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">M</div>
+      <span>MicroBank</span>
+    </div>
+
+    <p class="menu-label">MAIN MENU</p>
+
+    <a routerLink="/dashboard"
+       routerLinkActive="active"
+       class="nav-item">
+      <span>▦</span> Dashboard
+    </a>
+
+    <a routerLink="/transactions"
+       routerLinkActive="active"
+       class="nav-item">
+      <span>↔</span> Transactions
+    </a>
+
+    <p class="menu-label">BANKING</p>
+
+    <a routerLink="/deposit"
+       routerLinkActive="active"
+       class="nav-item">
+      <span>＋</span> Deposit
+    </a>
+
+    <a routerLink="/withdraw"
+       routerLinkActive="active"
+       class="nav-item">
+      <span>↓</span> Withdraw
+    </a>
+
+    <a routerLink="/transfer"
+       routerLinkActive="active"
+       class="nav-item">
+      <span>⇄</span> Transfer
+    </a>
+
+    <div class="sidebar-bottom">
+      <div class="security-note">
+        <span>🛡</span>
+        <div>
+          <strong>Secure Banking</strong>
+          <small>Your account is protected</small>
+        </div>
+      </div>
+
+      <button class="logout-btn" (click)="logout()">
+        ↪ &nbsp; Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-area">
+
+    <!-- Top Navigation -->
+    <header class="topbar">
+      <div>
+        <span class="breadcrumb">Banking / Dashboard</span>
+        <h2>My Dashboard</h2>
+      </div>
+
+      <div class="user-chip">
+        <div class="avatar">MB</div>
+        <div>
+          <strong>My Account</strong>
+          <small>Personal Banking</small>
+        </div>
+      </div>
+    </header>
+
+    <section class="page-content">
+
+      <!-- Welcome -->
+      <div class="welcome-row">
+        <div>
+          <h1>Welcome back!</h1>
+          <p>Here's your financial overview at a glance.</p>
+        </div>
+
+        <span class="secure-badge">
+          ● &nbsp; Secure Session
+        </span>
+      </div>
+
+      <!-- Loading -->
+      @if (loading) {
+        <div class="message-card">
+          Loading your account details...
+        </div>
+      }
+
+      <!-- Account Error -->
+      @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <!-- Dashboard Content -->
+      @if (!loading && !errorMessage) {
+
+        <!-- Account Overview -->
+        <section class="overview-grid">
+
+          <div class="balance-card">
+            <div class="balance-top">
+              <span>AVAILABLE BALANCE</span>
+              <span class="balance-icon">₹</span>
+            </div>
+
+            <h1>
+              {{ balance | currency:'INR':'symbol':'1.2-2':'en-IN' }}
+            </h1>
+
+            <p>Your available account balance</p>
+
+            <div class="balance-footer">
+              <span>● {{ accountType || 'Bank' }} Account</span>
+              <span>INR ₹</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon account-icon">▤</div>
+            <span class="info-label">ACCOUNT NUMBER</span>
+            <h3>{{ accountNumber }}</h3>
+            <p>Primary bank account</p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon type-icon">◈</div>
+            <span class="info-label">ACCOUNT TYPE</span>
+            <h3>{{ accountType }}</h3>
+            <p>Personal banking account</p>
+          </div>
+
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="section-block">
+
+          <div class="section-heading">
+            <div>
+              <h2>Quick Actions</h2>
+              <p>Choose a service to manage your money.</p>
+            </div>
+          </div>
+
+          <div class="actions-grid">
+
+            <a routerLink="/deposit" class="action-card">
+              <div class="action-icon deposit-icon">＋</div>
+              <h3>Deposit Money</h3>
+              <p>Add funds to your account securely.</p>
+              <span class="action-link">Get started →</span>
+            </a>
+
+            <a routerLink="/withdraw" class="action-card">
+              <div class="action-icon withdraw-icon">↓</div>
+              <h3>Withdraw Money</h3>
+              <p>Withdraw funds from your account.</p>
+              <span class="action-link">Get started →</span>
+            </a>
+
+            <a routerLink="/transfer" class="action-card">
+              <div class="action-icon transfer-icon">⇄</div>
+              <h3>Transfer Money</h3>
+              <p>Send funds to another bank account.</p>
+              <span class="action-link">Get started →</span>
+            </a>
+
+            <a routerLink="/transactions" class="action-card">
+              <div class="action-icon history-icon">▤</div>
+              <h3>Transactions</h3>
+              <p>Review your banking activity.</p>
+              <span class="action-link">View history →</span>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- Recent Transactions -->
+        <section class="section-block recent-section">
+
+          <div class="section-heading transactions-heading">
+            <div>
+              <h2>Recent Transactions</h2>
+              <p>Your latest account activity.</p>
+            </div>
+
+            <div class="transaction-actions">
+              <button
+                type="button"
+                class="refresh-btn"
+                (click)="loadRecentTransactions()"
+                [disabled]="transactionsLoading"
+              >
+                {{ transactionsLoading ? 'Loading...' : '↻ Refresh' }}
+              </button>
+
+              <a routerLink="/transactions" class="view-all-link">
+                View all →
+              </a>
+            </div>
+          </div>
+
+          @if (transactionsLoading) {
+            <div class="transaction-empty">
+              Loading transactions...
+            </div>
+          }
+
+          @if (transactionsError) {
+            <div class="transaction-error">
+              {{ transactionsError }}
+            </div>
+          }
+
+          @if (
+            !transactionsLoading &&
+            !transactionsError &&
+            recentTransactions.length === 0
+          ) {
+            <div class="transaction-empty">
+              <div class="empty-icon">↔</div>
+              <strong>No transactions yet</strong>
+              <p>Your banking activity will appear here.</p>
+            </div>
+          }
+
+          @if (
+            !transactionsLoading &&
+            recentTransactions.length > 0
+          ) {
+            <div class="recent-list">
+
+              @for (
+                transaction of recentTransactions;
+                track $index
+              ) {
+                <div class="recent-row">
+
+                  <div
+  class="recent-icon"
+  [ngClass]="getTransactionClass(transaction)"
+>
+  {{ getTransactionIcon(transaction) }}
+</div>
+
+                  <div class="recent-details">
+                    <strong>
+                      {{ getTransactionType(transaction) }}
+                    </strong>
+
+                    <span>
+                      {{ getTransactionDate(transaction) }}
+                    </span>
+                  </div>
+
+                  <strong
+  class="recent-amount"
+  [ngClass]="getTransactionClass(transaction)"
+>
+  {{ getTransactionPrefix(transaction) }}₹{{ getTransactionAmount(transaction) | number:'1.2-2' }}
+</strong>
+
+                </div>
+              }
+
+            </div>
+          }
+
+        </section>
+
+        <!-- Security Notice -->
+        <section class="bottom-note">
+          <span class="note-icon">✓</span>
+
+          <div>
+            <strong>Your banking, protected.</strong>
+            <p>
+              Never share your password or authentication token
+              with anyone.
+            </p>
+          </div>
+        </section>
+
+      }
+
+    </section>
+  </main>
+
+</div>

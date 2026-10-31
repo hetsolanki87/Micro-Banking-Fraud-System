@@ -1,0 +1,35 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+env/
+ENV/
+**/venv/
+**/.venv/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Node and Angular
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.angular/
+**/.angular/
+coverage/
+*.tsbuildinfo
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,502 @@
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f4f6fb;
+  color: #172746;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.deposit-page {
+  max-width: 1450px;
+  margin: auto;
+  padding: 38px 42px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 13px;
+  font-size: 12px;
+  color: #8a96aa;
+}
+
+.breadcrumb a {
+  color: #637a9f;
+  text-decoration: none;
+}
+
+.breadcrumb strong {
+  color: #31548c;
+}
+
+h1 {
+  margin: 0;
+  color: #142747;
+  font-size: clamp(28px, 3vw, 35px);
+  font-weight: 750;
+  letter-spacing: -1.2px;
+}
+
+h1 > span {
+  color: #6689ed;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: #7b879c;
+  font-size: 14px;
+}
+
+.secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #dcefe6;
+  border-radius: 30px;
+  padding: 11px 15px;
+  color: #16845e;
+  background: #f1fbf6;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.secure-badge span {
+  width: 7px;
+  height: 7px;
+  background: #23b17c;
+  border-radius: 50%;
+}
+
+.deposit-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 0.85fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.form-card,
+.info-card,
+.help-card {
+  background: white;
+  border: 1px solid #e6ebf3;
+  border-radius: 19px;
+  box-shadow: 0 7px 25px #172d4c07;
+}
+
+.form-card {
+  padding: 30px;
+}
+
+.card-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.heading-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #e5f8ef;
+  color: #13966a;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.card-heading h2 {
+  margin: 0;
+  color: #1c304f;
+  font-size: 18px;
+  letter-spacing: -0.3px;
+}
+
+.card-heading p {
+  margin: 7px 0 0;
+  color: #8a96aa;
+  font-size: 12px;
+}
+
+.amount-section {
+  margin-top: 28px;
+}
+
+.amount-section > label,
+.quick-amounts > label {
+  display: block;
+  margin-bottom: 12px;
+  color: #344762;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.amount-input {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border: 1.5px solid #dce4f1;
+  border-radius: 13px;
+  padding: 12px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.amount-input:focus-within {
+  border-color: #6e91e8;
+  box-shadow: 0 0 0 4px #6689ed15;
+}
+
+.amount-input > span:first-child {
+  color: #7c8ba5;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.amount-input input {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  color: #172d4c;
+  background: transparent;
+  font-size: 28px;
+  font-weight: 750;
+}
+
+.amount-input input::placeholder {
+  color: #c3ccda;
+}
+
+.amount-input input::-webkit-inner-spin-button,
+.amount-input input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.amount-input input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.currency-label {
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: #f0f3f9;
+  color: #71819c;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.input-hint {
+  color: #9aa4b5;
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+.quick-amounts {
+  margin-top: 26px;
+}
+
+.amount-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.amount-options button {
+  padding: 13px 8px;
+  border: 1px solid #e0e7f2;
+  border-radius: 10px;
+  color: #405777;
+  background: white;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.amount-options button:hover,
+.amount-options button.selected {
+  color: #244a8a;
+  border-color: #91aceb;
+  background: #f0f4ff;
+}
+
+.amount-options button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.feedback {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: 11px;
+  margin-top: 22px;
+  font-size: 12px;
+}
+
+.feedback > span {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  font-weight: 900;
+}
+
+.feedback p {
+  margin: 2px 0;
+  line-height: 1.6;
+}
+
+.feedback.error {
+  color: #b43e3e;
+  background: #fff0f0;
+  border: 1px solid #f6dada;
+}
+
+.feedback.error > span {
+  color: #b43e3e;
+  background: #ffdddd;
+}
+
+.feedback.success {
+  color: #167650;
+  background: #effbf5;
+  border: 1px solid #d4f0e0;
+}
+
+.feedback.success > span {
+  color: #167650;
+  background: #d9f5e5;
+}
+
+.feedback.success strong {
+  display: block;
+  margin: 3px 0 7px;
+}
+
+.feedback.success a {
+  display: inline-block;
+  margin-top: 8px;
+  color: #176d50;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.deposit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  width: 100%;
+  min-height: 51px;
+  margin-top: 26px;
+  border: 0;
+  border-radius: 11px;
+  color: white;
+  background: linear-gradient(105deg, #19345f, #2e548d);
+  box-shadow: 0 7px 15px #19345f22;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deposit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px #19345f30;
+}
+
+.deposit-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.deposit-button > span:last-child {
+  font-size: 19px;
+}
+
+.button-loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff60;
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.disclaimer {
+  text-align: center;
+  color: #9aa4b5;
+  font-size: 10px;
+  line-height: 1.7;
+  margin: 17px 0 0;
+}
+
+.deposit-sidebar {
+  display: grid;
+  gap: 18px;
+}
+
+.info-card {
+  padding: 25px;
+}
+
+.info-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #edf3ff;
+  font-size: 23px;
+}
+
+.info-card h3,
+.help-card h3 {
+  margin: 19px 0 8px;
+  color: #203451;
+  font-size: 15px;
+}
+
+.info-card > p,
+.help-card p {
+  margin: 0;
+  color: #8793a8;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.info-divider {
+  height: 1px;
+  background: #edf0f6;
+  margin: 22px 0;
+}
+
+.security-point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  color: #5d6e88;
+  font-size: 11px;
+}
+
+.security-point span {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #e4f8ee;
+  color: #149568;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.help-card {
+  display: flex;
+  gap: 14px;
+  padding: 22px;
+}
+
+.help-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: #486cce;
+  background: #edf2ff;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.help-card h3 {
+  margin: 2px 0 8px;
+}
+
+.help-card a {
+  display: inline-block;
+  margin-top: 14px;
+  color: #3159a1;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .deposit-page {
+    padding: 28px 22px;
+  }
+
+  .deposit-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .deposit-sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .deposit-page {
+    padding: 22px 14px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .secure-badge {
+    padding: 9px;
+    font-size: 0;
+  }
+
+  .secure-badge span {
+    width: 8px;
+    height: 8px;
+  }
+
+  .form-card {
+    padding: 21px 17px;
+  }
+
+  .card-heading h2 {
+    font-size: 16px;
+  }
+
+  .amount-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .deposit-sidebar {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,473 @@
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <span class="logo-icon">M</span>
+    <span>MicroBank</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#features">Features</a>
+    <a href="#security">Security</a>
+    <a href="#about">About</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="login-btn" (click)="openLogin()">Login</button>
+    <button class="signup-btn" (click)="openSignup()">Sign Up</button>
+  </div>
+</nav>
+
+
+<!-- HERO SECTION -->
+<section id="home" class="hero-section">
+  <div class="hero-content">
+
+    <div class="hero-badge">
+      🔒 Secure Banking • AI Fraud Detection
+    </div>
+
+    <h1>
+      Banking Made
+      <span>Smarter & Safer</span>
+    </h1>
+
+    <p>
+      MicroBank is a secure digital banking platform with intelligent
+      fraud detection that helps protect your money and transactions.
+    </p>
+
+    <div class="hero-buttons">
+      <button class="primary-btn" (click)="openSignup()">
+        Get Started →
+      </button>
+
+      <button class="secondary-btn" (click)="openLogin()">
+        Login to Account
+      </button>
+    </div>
+
+    <div class="hero-stats">
+      <div>
+        <strong>24/7</strong>
+        <span>Banking</span>
+      </div>
+
+      <div>
+        <strong>AI</strong>
+        <span>Fraud Detection</span>
+      </div>
+
+      <div>
+        <strong>JWT</strong>
+        <span>Secure Login</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="hero-card">
+
+    <div class="card-header">
+      <span>MicroBank</span>
+      <span>•••</span>
+    </div>
+
+    <div class="card-chip">▦</div>
+
+    <div class="card-number">
+      **** **** **** 3888
+    </div>
+
+    <div class="card-bottom">
+      <div>
+        <small>ACCOUNT HOLDER</small>
+        <strong>MICROBANK USER</strong>
+      </div>
+
+      <div>
+        <small>TYPE</small>
+        <strong>SAVINGS</strong>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FEATURES -->
+<section id="features" class="section">
+  <div class="section-heading">
+    <span>FEATURES</span>
+    <h2>Everything You Need for Smarter Banking</h2>
+    <p>
+      Manage your money easily with secure banking features
+      designed for everyday transactions.
+    </p>
+  </div>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">💳</div>
+      <h3>Easy Transactions</h3>
+      <p>
+        Deposit, withdraw and transfer money through a simple
+        and user-friendly banking interface.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Fraud Detection</h3>
+      <p>
+        Transactions are analyzed using intelligent fraud
+        scoring to identify suspicious activity.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Transaction History</h3>
+      <p>
+        View your transaction records and monitor your
+        financial activity easily.
+      </p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Real-Time Security</h3>
+      <p>
+        Suspicious transactions can be detected and blocked
+        before they affect your account.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- SECURITY -->
+<section id="security" class="security-section">
+  <div class="security-content">
+
+    <div>
+      <span class="section-label">SECURITY FIRST</span>
+
+      <h2>
+        Your Money.
+        <span>Your Security.</span>
+      </h2>
+
+      <p>
+        MicroBank combines secure authentication with intelligent
+        transaction monitoring to provide a safer banking experience.
+      </p>
+
+      <div class="security-list">
+
+        <div class="security-item">
+          <span>✓</span>
+          <div>
+            <strong>JWT Authentication</strong>
+            <p>Secure user authentication and protected APIs.</p>
+          </div>
+        </div>
+
+        <div class="security-item">
+          <span>✓</span>
+          <div>
+            <strong>Password Protection</strong>
+            <p>User passwords are securely hashed before storage.</p>
+          </div>
+        </div>
+
+        <div class="security-item">
+          <span>✓</span>
+          <div>
+            <strong>Fraud Risk Scoring</strong>
+            <p>Transactions receive a fraud score and risk level.</p>
+          </div>
+        </div>
+
+        <div class="security-item">
+          <span>✓</span>
+          <div>
+            <strong>Admin Monitoring</strong>
+            <p>Administrators can monitor suspicious transactions.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="security-card">
+      <div class="shield">🛡️</div>
+      <h3>Protected Banking</h3>
+      <p>
+        Intelligent monitoring helps keep your transactions
+        safer from suspicious activity.
+      </p>
+
+      <div class="security-status">
+        <span class="status-dot"></span>
+        Security System Active
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ABOUT -->
+<section id="about" class="section about-section">
+
+  <div class="section-heading">
+    <span>ABOUT MICROBANK</span>
+    <h2>Modern Banking With Intelligent Security</h2>
+
+    <p>
+      MicroBank is a full-stack banking project built with modern
+      web technologies and an intelligent fraud detection system.
+    </p>
+  </div>
+
+  <div class="tech-grid">
+
+    <div class="tech-card">
+      <strong>Angular</strong>
+      <span>Frontend</span>
+    </div>
+
+    <div class="tech-card">
+      <strong>FastAPI</strong>
+      <span>Backend</span>
+    </div>
+
+    <div class="tech-card">
+      <strong>PostgreSQL</strong>
+      <span>Database</span>
+    </div>
+
+    <div class="tech-card">
+      <strong>JWT</strong>
+      <span>Authentication</span>
+    </div>
+
+    <div class="tech-card">
+      <strong>AI / ML</strong>
+      <span>Fraud Detection</span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CTA -->
+<section class="cta-section">
+
+  <div>
+    <h2>Ready to Start Banking?</h2>
+
+    <p>
+      Create your account and experience secure digital banking.
+    </p>
+  </div>
+
+  <button class="primary-btn" (click)="openSignup()">
+    Create Your Account →
+  </button>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <div class="footer-main">
+
+    <div>
+      <div class="logo footer-logo">
+        <span class="logo-icon">M</span>
+        <span>MicroBank</span>
+      </div>
+
+      <p>
+        Secure banking powered by intelligent fraud detection.
+      </p>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#security">Security</a>
+      <a href="#about">About</a>
+    </div>
+
+    <div>
+      <h4>Support</h4>
+      <p>📞 Helpline</p>
+      <strong>1800-123-4567</strong>
+      <p>Available 24/7</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 MicroBank. All rights reserved.</span>
+    <span>Secure • Smart • Reliable</span>
+  </div>
+
+</footer>
+
+
+<!-- LOGIN MODAL -->
+@if (showLogin) {
+
+  <div class="modal-overlay" (click)="closeModal()">
+
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <button class="close-btn" (click)="closeModal()">×</button>
+
+      <div class="modal-icon">🔐</div>
+
+      <h2>Welcome Back</h2>
+
+      <p class="modal-subtitle">
+        Login to your MicroBank account
+      </p>
+
+      <form (ngSubmit)="onLogin()">
+
+        <div class="input-group">
+          <label>Email Address</label>
+
+          <input
+            type="email"
+            name="loginEmail"
+            [(ngModel)]="loginEmail"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+
+          <input
+            type="password"
+            name="loginPassword"
+            [(ngModel)]="loginPassword"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="modal-submit">
+          Login
+        </button>
+
+      </form>
+
+      <p class="switch-text">
+        Don't have an account?
+        <button type="button" (click)="switchToSignup()">
+          Sign Up
+        </button>
+      </p>
+
+    </div>
+
+  </div>
+
+}
+
+
+<!-- SIGNUP MODAL -->
+@if (showSignup) {
+
+  <div class="modal-overlay" (click)="closeModal()">
+
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <button class="close-btn" (click)="closeModal()">×</button>
+
+      <div class="modal-icon">👤</div>
+
+      <h2>Create Account</h2>
+
+      <p class="modal-subtitle">
+        Join MicroBank today
+      </p>
+
+@if (signupMessage) {
+  <div class="success-message">
+    {{ signupMessage }}
+  </div>
+}
+
+@if (signupError) {
+  <div class="error-message">
+    {{ signupError }}
+  </div>
+}
+      <form (ngSubmit)="onSignup()">
+
+        <div class="input-group">
+          <label>Full Name</label>
+
+          <input
+            type="text"
+            name="signupName"
+            [(ngModel)]="signupName"
+            placeholder="Enter your full name"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label>Email Address</label>
+
+          <input
+            type="email"
+            name="signupEmail"
+            [(ngModel)]="signupEmail"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+
+          <input
+            type="password"
+            name="signupPassword"
+            [(ngModel)]="signupPassword"
+            placeholder="Create a password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="modal-submit">
+          Create Account
+        </button>
+
+      </form>
+
+      <p class="switch-text">
+        Already have an account?
+        <button type="button" (click)="switchToLogin()">
+          Login
+        </button>
+      </p>
+
+    </div>
+
+  </div>
+
+}

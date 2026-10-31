@@ -1,0 +1,457 @@
+
+<div class="transactions-page">
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb">
+        <span>Admin Console</span>
+        <span class="separator">/</span>
+        <span class="current">Transactions</span>
+      </div>
+      <h1>Transaction History<span class="title-dot">.</span></h1>
+      <p class="subtitle">
+        Monitor transactions and investigate suspicious activity.
+      </p>
+    </div>
+
+    <button class="refresh-btn" (click)="loadTransactions()">
+      <span class="refresh-icon">↻</span>
+      Refresh activity
+    </button>
+  </div>
+
+  <!-- Welcome Banner -->
+  <section class="welcome-banner">
+    <div class="banner-content">
+      <span class="eyebrow">MICROBANK SECURITY OPERATIONS</span>
+      <h2>Every transaction matters.</h2>
+      <p>
+        Review transaction records, payment statuses and fraud risk scores.
+      </p>
+      <div class="security-note">
+        <span class="security-dot"></span>
+        Admin monitoring enabled
+      </div>
+    </div>
+
+    <div class="banner-art">
+      <div class="art-circle circle-one"></div>
+      <div class="art-circle circle-two"></div>
+
+      <div class="art-card">
+        <div class="art-card-top">
+          <span class="mini-logo">M</span>
+          <span class="art-chip">SECURE</span>
+        </div>
+        <div class="art-card-label">MICROBank MONITOR</div>
+        <div class="art-card-bottom">
+          <span>Fraud risk monitoring</span>
+          <span class="card-symbol">◉</span>
+        </div>
+      </div>
+
+      <div class="floating-check">✓</div>
+    </div>
+  </section>
+
+  <!-- Statistics -->
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-top">
+        <div class="stat-icon purple">▤</div>
+        <span class="stat-caption">ALL TRANSACTIONS</span>
+      </div>
+      <div class="stat-value">{{ transactions.length }}</div>
+      <div class="stat-bottom">Records loaded</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <div class="stat-icon green">✓</div>
+        <span class="stat-caption">COMPLETED</span>
+      </div>
+      <div class="stat-value">
+        {{ countByStatus('COMPLETED') }}
+      </div>
+      <div class="stat-bottom">Completed transactions</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <div class="stat-icon blue">!</div>
+        <span class="stat-caption">HIGH RISK</span>
+      </div>
+      <div class="stat-value">{{ countHighRisk() }}</div>
+      <div class="stat-bottom">Scores of 70 or above</div>
+    </div>
+  </section>
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="feedback-card">
+      <div class="loader"></div>
+      <h3>Loading transactions</h3>
+      <p>Please wait while the records are retrieved.</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (errorMessage) {
+    <div class="error-card">
+      <div class="error-icon">!</div>
+      <div>
+        <h3>Unable to load transactions</h3>
+        <p>{{ errorMessage }}</p>
+        <button class="retry-btn" (click)="loadTransactions()">
+          Try again
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Transactions Table -->
+  @if (!loading && !errorMessage) {
+    <section class="activity-card">
+      <div class="activity-header">
+        <div>
+          <div class="section-kicker">ADMINISTRATION</div>
+          <h2>All transactions</h2>
+          <p>Search records and review fraud risk assessments.</p>
+        </div>
+
+        <div class="record-count">
+          <span class="count-dot"></span>
+          {{ filteredTransactions.length }} records
+        </div>
+      </div>
+
+      <!-- Search and Filters -->
+      <div class="transaction-filters">
+        <div class="search-box">
+          <span class="search-icon">⌕</span>
+          <input
+            type="text"
+            placeholder="Search transaction or account ID..."
+            [value]="searchTerm"
+            (input)="searchTerm = $any($event.target).value"
+            aria-label="Search transactions"
+          />
+        </div>
+
+        <select
+          [value]="statusFilter"
+          (change)="statusFilter = $any($event.target).value"
+          aria-label="Filter by transaction status"
+        >
+          <option value="ALL">All statuses</option>
+          <option value="COMPLETED">Completed</option>
+          <option value="SUCCESS">Success</option>
+          <option value="FRAUD">Fraud</option>
+          <option value="PENDING">Pending</option>
+          <option value="PROCESSING">Processing</option>
+          <option value="FAILED">Failed</option>
+          <option value="BLOCKED">Blocked</option>
+          <option value="REJECTED">Rejected</option>
+        </select>
+
+        <button
+          class="retry-btn"
+          (click)="searchTerm = ''; statusFilter = 'ALL'"
+        >
+          Clear filters
+        </button>
+      </div>
+
+      @if (filteredTransactions.length > 0) {
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>TRANSACTION</th>
+                <th>SENDER / RECEIVER</th>
+                <th>DATE &amp; TIME</th>
+                <th>AMOUNT</th>
+                <th>STATUS</th>
+                <th>FRAUD SCORE</th>
+                <th>RISK LEVEL</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (
+                transaction of filteredTransactions;
+                track transaction.id
+              ) {
+                <tr
+                  class="clickable-row"
+                  (click)="selectedTransaction = transaction"
+                  title="Click to view transaction details"
+                >
+                  <!-- Transaction ID and Type -->
+                  <td>
+                    <div class="transaction-info">
+                      <div
+                        class="transaction-icon"
+                        [class.deposit-icon]="transaction.type.toLowerCase().includes('deposit')"
+                        [class.withdraw-icon]="transaction.type.toLowerCase().includes('withdraw')"
+                        [class.transfer-icon]="transaction.type.toLowerCase().includes('transfer')"
+                      >
+                        {{
+                          transaction.type.toLowerCase().includes('deposit')
+                            ? '↓'
+                            : transaction.type.toLowerCase().includes('withdraw')
+                              ? '↑'
+                              : '↗'
+                        }}
+                      </div>
+
+                      <div class="transaction-text">
+                        <strong>#{{ transaction.id }}</strong>
+                        <small>{{ transaction.type }}</small>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Sender and Receiver -->
+                  <td>
+                    <div class="date-cell">
+                      <strong>
+                        {{
+                          getAccountDescription(
+                            transaction.description,
+                            'Sender'
+                          )
+                        }}
+                      </strong>
+                      <small>
+                        {{
+                          getAccountDescription(
+                            transaction.description,
+                            'Receiver'
+                          )
+                        }}
+                      </small>
+                    </div>
+                  </td>
+
+                  <!-- Date and Time -->
+                  <td>
+                    <div class="date-cell">
+                      <strong>
+                        {{
+                          transaction.date
+                            ? (transaction.date | date:'dd MMM yyyy')
+                            : 'Date unavailable'
+                        }}
+                      </strong>
+                      <small>
+                        {{
+                          transaction.date
+                            ? (transaction.date | date:'h:mm a')
+                            : '—'
+                        }}
+                      </small>
+                    </div>
+                  </td>
+
+                  <!-- Amount -->
+                  <td>
+                    <span class="amount">
+                      {{
+                        transaction.amount
+                          | currency:'INR':'symbol':'1.2-2':'en-IN'
+                      }}
+                    </span>
+                  </td>
+
+                  <!-- Status -->
+                  <td>
+                    <span
+                      class="status"
+                      [class.success]="transaction.status.toUpperCase() === 'COMPLETED' || transaction.status.toUpperCase() === 'SUCCESS'"
+                      [class.pending]="transaction.status.toUpperCase() === 'PENDING' || transaction.status.toUpperCase() === 'PROCESSING'"
+                      [class.failed]="transaction.status.toUpperCase() === 'FAILED' || transaction.status.toUpperCase() === 'REJECTED' || transaction.status.toUpperCase() === 'FRAUD' || transaction.status.toUpperCase() === 'BLOCKED'"
+                    >
+                      <span class="status-dot"></span>
+                      {{ transaction.status }}
+                    </span>
+                  </td>
+
+                  <!-- Fraud Score -->
+                  <td>
+                    <strong>
+                      {{ transaction.fraudScore | number:'1.0-2' }}/100
+                    </strong>
+                  </td>
+
+                  <!-- Risk Level -->
+                  <td>
+                    <span
+                      class="risk-badge"
+                      [class.risk-low]="getRiskLevel(transaction.fraudScore) === 'LOW'"
+                      [class.risk-medium]="getRiskLevel(transaction.fraudScore) === 'MEDIUM'"
+                      [class.risk-high]="getRiskLevel(transaction.fraudScore) === 'HIGH'"
+                    >
+                      {{ getRiskLevel(transaction.fraudScore) }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <!-- Empty State -->
+        <div class="empty-state">
+          <div class="empty-illustration">
+            <div class="empty-document">▤</div>
+            <span class="empty-sparkle">✦</span>
+          </div>
+          <h3>No matching transactions</h3>
+          <p>
+            Try another transaction ID, account ID or status filter.
+          </p>
+          <button
+            class="primary-link"
+            (click)="searchTerm = ''; statusFilter = 'ALL'"
+          >
+            Clear filters →
+          </button>
+        </div>
+      }
+
+      <div class="activity-footer">
+        <span>
+          <span class="footer-shield">✓</span>
+          Transaction monitoring enabled.
+        </span>
+        <span>MicroBank <b>•</b> Admin Console</span>
+      </div>
+    </section>
+  }
+
+  <!-- Transaction Details Popup -->
+  @if (selectedTransaction) {
+    <div
+      class="modal-overlay"
+      (click)="selectedTransaction = null"
+    >
+      <div
+        class="transaction-modal"
+        (click)="$event.stopPropagation()"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="transaction-modal-title"
+      >
+        <div class="modal-header">
+          <div>
+            <span class="section-kicker">TRANSACTION DETAILS</span>
+            <h2 id="transaction-modal-title">
+              Transaction #{{ selectedTransaction.id }}
+            </h2>
+          </div>
+
+          <button
+            class="modal-close"
+            (click)="selectedTransaction = null"
+            aria-label="Close transaction details"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="modal-amount">
+          <span>
+            {{ formatCurrency(selectedTransaction.amount) }}
+          </span>
+
+          <span
+            class="status"
+            [class.success]="selectedTransaction.status.toUpperCase() === 'COMPLETED' || selectedTransaction.status.toUpperCase() === 'SUCCESS'"
+            [class.pending]="selectedTransaction.status.toUpperCase() === 'PENDING' || selectedTransaction.status.toUpperCase() === 'PROCESSING'"
+            [class.failed]="selectedTransaction.status.toUpperCase() === 'FAILED' || selectedTransaction.status.toUpperCase() === 'REJECTED' || selectedTransaction.status.toUpperCase() === 'FRAUD' || selectedTransaction.status.toUpperCase() === 'BLOCKED'"
+          >
+            {{ selectedTransaction.status }}
+          </span>
+        </div>
+
+        <div class="detail-list">
+          <div class="detail-item">
+            <span>Transaction ID</span>
+            <strong>#{{ selectedTransaction.id }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Transaction type</span>
+            <strong>{{ selectedTransaction.type }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Sender account</span>
+            <strong>
+              {{
+                getAccountDescription(
+                  selectedTransaction.description,
+                  'Sender'
+                )
+              }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Receiver account</span>
+            <strong>
+              {{
+                getAccountDescription(
+                  selectedTransaction.description,
+                  'Receiver'
+                )
+              }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Date and time</span>
+            <strong>
+              {{
+                selectedTransaction.date
+                  ? (selectedTransaction.date | date:'dd MMM yyyy, h:mm a')
+                  : 'Unavailable'
+              }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Transaction status</span>
+            <strong>{{ selectedTransaction.status }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Fraud score</span>
+            <strong>
+              {{ selectedTransaction.fraudScore | number:'1.0-2' }}/100
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <span>Risk level</span>
+            <strong
+              class="risk-badge"
+              [class.risk-low]="getRiskLevel(selectedTransaction.fraudScore) === 'LOW'"
+              [class.risk-medium]="getRiskLevel(selectedTransaction.fraudScore) === 'MEDIUM'"
+              [class.risk-high]="getRiskLevel(selectedTransaction.fraudScore) === 'HIGH'"
+            >
+              {{ getRiskLevel(selectedTransaction.fraudScore) }}
+            </strong>
+          </div>
+        </div>
+
+        <button
+          class="modal-done"
+          (click)="selectedTransaction = null"
+        >
+          Close details
+        </button>
+      </div>
+    </div>
+  }
+</div>

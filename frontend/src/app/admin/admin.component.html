@@ -1,0 +1,548 @@
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">M</div>
+      <div class="brand-text">
+        <h2>MicroBank</h2>
+        <span>SECURE BANKING</span>
+      </div>
+    </div>
+
+    <div class="menu-label">MAIN MENU</div>
+
+    <a
+      routerLink="/admin"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item">
+      <span class="nav-icon">▦</span>
+      <span>Dashboard</span>
+    </a>
+
+    <a routerLink="/transactions" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">↔</span>
+      <span>Transactions</span>
+    </a>
+
+    <div class="sidebar-section-label">SECURITY</div>
+
+    <div class="security-card">
+      <div class="security-card-top">
+        <div class="security-icon">✓</div>
+        <span class="security-indicator"></span>
+      </div>
+
+      <strong>Security Center</strong>
+      <p>Monitor suspicious activity and fraud alerts from one place.</p>
+
+      <div class="security-card-footer">
+        <span class="security-dot"></span>
+        Monitoring enabled
+      </div>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="connection-icon">⌁</div>
+
+      <div class="connection-text">
+        <span>Backend connection</span>
+        <strong>
+          <span class="status-dot"></span>
+          API monitoring
+        </strong>
+      </div>
+    </div>
+
+    <!-- Logout Button -->
+    <button
+      class="logout-button"
+      type="button"
+      (click)="logout()">
+      <span class="logout-icon">↪</span>
+      <span>Logout</span>
+    </button>
+
+  </aside>
+
+  <!-- Main Dashboard -->
+  <main class="main-content">
+
+    <!-- Header -->
+    <header class="topbar">
+
+      <div class="topbar-title">
+        <div class="breadcrumb">
+          <span>MicroBank</span>
+          <span>/</span>
+          <strong>Dashboard</strong>
+        </div>
+
+        <h1>Admin Dashboard<span class="title-dot">.</span></h1>
+
+        <p class="subtitle">
+          Welcome to your banking security workspace.
+          Here's your system overview.
+        </p>
+      </div>
+
+      <button
+        class="refresh-btn"
+        (click)="loadDashboard()"
+        [disabled]="loading">
+        <span class="refresh-icon">↻</span>
+        {{ loading ? 'Refreshing...' : 'Refresh data' }}
+      </button>
+
+    </header>
+
+    <!-- Error Message -->
+    <div class="error-banner" *ngIf="error">
+      <span class="error-symbol">!</span>
+      <span>{{ error }}</span>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-card" *ngIf="loading">
+      <div class="loader"></div>
+
+      <div>
+        <strong>Loading dashboard</strong>
+        <p>Retrieving your latest banking statistics...</p>
+      </div>
+    </div>
+
+    <!-- Dashboard Data -->
+    <ng-container *ngIf="!loading && statistics as stats">
+
+      <!-- Welcome Banner -->
+      <section class="welcome-card">
+
+        <div class="welcome-content">
+          <span class="welcome-label">
+            <span class="welcome-label-dot"></span>
+            SYSTEM OVERVIEW
+          </span>
+
+          <h2>Banking activity at a glance</h2>
+
+          <p>
+            Track transactions, review fraud scores and keep an eye on
+            suspicious banking activity.
+          </p>
+
+          <div class="welcome-meta">
+            <span class="welcome-meta-icon">✓</span>
+            Centralized security monitoring
+          </div>
+        </div>
+
+        <div class="welcome-art" aria-hidden="true">
+          <div class="welcome-orbit orbit-one"></div>
+          <div class="welcome-orbit orbit-two"></div>
+
+          <div class="welcome-shield">
+            <span>M</span>
+            <small>SECURE</small>
+          </div>
+
+          <div class="welcome-float-card">
+            <span class="float-check">✓</span>
+
+            <div>
+              <strong>MicroBank</strong>
+              <small>Security operations</small>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Banking Statistics -->
+      <section class="section-block">
+
+        <div class="section-heading">
+          <div>
+            <span class="section-eyebrow">PERFORMANCE OVERVIEW</span>
+            <h2>Banking statistics</h2>
+          </div>
+
+          <span class="updated-label">
+            <span class="security-dot"></span>
+            Live dashboard data
+          </span>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+
+          <!-- Total Transactions -->
+          <article class="stat-card total-card">
+            <div class="stat-top">
+              <div>
+                <span class="stat-label">TOTAL TRANSACTIONS</span>
+                <h2>{{ stats.total_transactions }}</h2>
+              </div>
+
+              <div class="stat-icon blue">↔</div>
+            </div>
+
+            <p class="stat-description">All recorded transactions</p>
+
+            <div class="stat-bottom-line">
+              <span class="stat-mini-icon">▤</span>
+              Transaction volume
+            </div>
+          </article>
+
+          <!-- Completed Transactions -->
+          <article class="stat-card completed-card">
+            <div class="stat-top">
+              <div>
+                <span class="stat-label">COMPLETED</span>
+                <h2>{{ stats.completed_transactions }}</h2>
+              </div>
+
+              <div class="stat-icon green">✓</div>
+            </div>
+
+            <p class="stat-description">Successfully processed</p>
+
+            <div class="stat-bottom-line">
+              <span class="stat-mini-icon green-text">✓</span>
+              Completed records
+            </div>
+          </article>
+
+          <!-- Fraud Transactions -->
+          <article class="stat-card fraud-card">
+            <div class="stat-top">
+              <div>
+                <span class="stat-label">FRAUD RECORDS</span>
+                <h2>{{ stats.fraud_transactions }}</h2>
+              </div>
+
+              <div class="stat-icon red">!</div>
+            </div>
+
+            <p class="stat-description">Transactions marked FRAUD</p>
+
+            <div class="stat-bottom-line">
+              <span class="stat-mini-icon red-text">!</span>
+              Requires monitoring
+            </div>
+          </article>
+
+          <!-- High Risk Transactions -->
+          <article class="stat-card highrisk-card">
+            <div class="stat-top">
+              <div>
+                <span class="stat-label">HIGH-RISK SCORES</span>
+                <h2>{{ stats.high_risk_transactions }}</h2>
+              </div>
+
+              <div class="stat-icon amber">⌁</div>
+            </div>
+
+            <p class="stat-description">Fraud scores of 70 or above</p>
+
+            <div class="stat-bottom-line">
+              <span class="stat-mini-icon amber-text">!</span>
+              High-risk monitoring
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- Financial and Risk Summary -->
+      <section class="secondary-grid">
+
+        <!-- Transaction Amount -->
+        <article class="panel amount-panel">
+          <div class="panel-topline">
+            <div>
+              <span class="panel-label">
+                COMPLETED TRANSACTION VALUE
+              </span>
+
+              <h2>
+                {{ formatCurrency(stats.total_transaction_amount) }}
+              </h2>
+            </div>
+
+            <div class="summary-icon amount-icon">₹</div>
+          </div>
+
+          <p class="panel-description">
+            Total value of completed transaction records.
+          </p>
+
+          <div class="summary-footer">
+            <span class="summary-footer-icon">↗</span>
+            Transaction value overview
+          </div>
+        </article>
+
+        <!-- Average Fraud Score -->
+        <article class="panel score-panel">
+          <div class="panel-topline">
+            <div>
+              <span class="panel-label">AVERAGE FRAUD SCORE</span>
+
+              <h2>
+                {{ stats.average_fraud_score }}
+                <span class="score-total">/100</span>
+              </h2>
+            </div>
+
+            <div class="summary-icon score-icon">⌁</div>
+          </div>
+
+          <div class="score-track">
+            <div
+              class="score-fill"
+              [style.width.%]="stats.average_fraud_score">
+            </div>
+          </div>
+
+          <div class="score-scale">
+            <span>0 — Low risk</span>
+            <span>100 — High risk</span>
+          </div>
+
+          <p class="panel-description">
+            Average score across recorded transactions.
+          </p>
+        </article>
+
+      </section>
+
+      <!-- Analytics Charts -->
+      <section class="charts-section">
+
+        <!-- Doughnut Chart -->
+        <article class="chart-card">
+
+          <div class="chart-heading">
+            <div>
+              <span class="section-eyebrow">
+                TRANSACTION BREAKDOWN
+              </span>
+
+              <h2>Transaction Overview</h2>
+
+              <p>
+                Completed transactions compared with all other records.
+              </p>
+            </div>
+
+            <span class="chart-icon">◉</span>
+          </div>
+
+          <div class="chart-container">
+            <canvas #transactionChart></canvas>
+          </div>
+
+        </article>
+
+        <!-- Bar Chart -->
+        <article class="chart-card">
+
+          <div class="chart-heading">
+            <div>
+              <span class="section-eyebrow">RISK MONITORING</span>
+
+              <h2>Transaction Analytics</h2>
+
+              <p>
+                Compare total, completed, fraud and high-risk counts.
+              </p>
+            </div>
+
+            <span class="chart-icon">▥</span>
+          </div>
+
+          <div class="chart-container">
+            <canvas #riskChart></canvas>
+          </div>
+
+        </article>
+
+      </section>
+
+    </ng-container>
+
+    <!-- Fraud Monitoring Table -->
+    <section class="panel fraud-panel">
+
+      <div class="panel-heading">
+        <div>
+          <span class="section-eyebrow">SECURITY MONITORING</span>
+
+          <h2>Flagged transactions</h2>
+
+          <p class="panel-description">
+            Review records returned by your fraud-monitoring endpoint.
+          </p>
+        </div>
+
+        <span class="live-tag">
+          <span class="live-tag-dot"></span>
+          FRAUD RECORDS
+        </span>
+      </div>
+
+      <!-- Responsive Table -->
+      <div class="table-scroll">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>TRANSACTION</th>
+              <th>AMOUNT</th>
+              <th>FRAUD SCORE</th>
+              <th>RISK LEVEL</th>
+              <th>STATUS</th>
+              <th>DATE</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let tx of fraudTransactions">
+
+              <!-- Transaction ID -->
+              <td>
+                <div class="transaction-id-cell">
+                  <span class="transaction-row-icon">↔</span>
+
+                  <div>
+                    <strong>#{{ tx.transaction_id }}</strong>
+                    <small>Bank transaction</small>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Amount -->
+              <td>
+                <strong class="table-amount">
+                  {{ formatCurrency(tx.amount) }}
+                </strong>
+              </td>
+
+              <!-- Fraud Score -->
+              <td>
+                <div class="fraud-score-cell">
+                  <strong>{{ tx.fraud_score }}/100</strong>
+
+                  <div class="mini-score-track">
+                    <div
+                      class="mini-score-fill"
+                      [style.width.%]="tx.fraud_score">
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Risk Level -->
+              <td>
+                <span
+                  class="risk-pill"
+                  [ngClass]="(
+                    tx.risk_level ||
+                    (
+                      tx.fraud_score >= 70
+                        ? 'HIGH'
+                        : tx.fraud_score >= 30
+                          ? 'MEDIUM'
+                          : 'LOW'
+                    )
+                  ).toLowerCase()">
+
+                  {{
+                    tx.risk_level ||
+                    (
+                      tx.fraud_score >= 70
+                        ? 'HIGH'
+                        : tx.fraud_score >= 30
+                          ? 'MEDIUM'
+                          : 'LOW'
+                    )
+                  }}
+
+                </span>
+              </td>
+
+              <!-- Status -->
+              <td>
+                <span class="status-pill">
+                  <span class="status-pill-dot"></span>
+                  {{ tx.status }}
+                </span>
+              </td>
+
+              <!-- Date -->
+              <td>
+                <span class="table-date">
+                  {{
+                    tx.created_at
+                      ? (tx.created_at | date:'dd MMM yyyy')
+                      : '—'
+                  }}
+                </span>
+              </td>
+
+            </tr>
+
+            <!-- Empty State -->
+            <tr *ngIf="fraudTransactions.length === 0">
+              <td colspan="6" class="empty-state">
+
+                <div class="empty-state-icon">✓</div>
+
+                <strong>No fraud records to display</strong>
+
+                <p>
+                  No records were returned by the fraud-monitoring endpoint.
+                  If you expected results, check the backend connection.
+                </p>
+
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+      <!-- Table Footer -->
+      <div class="fraud-footer">
+        <span>
+          <span class="security-dot"></span>
+          Fraud monitoring overview
+        </span>
+
+        <a routerLink="/transactions">
+          View all transactions →
+        </a>
+      </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>
+        © MicroBank · Banking &amp; Fraud Detection System
+      </span>
+
+      <span class="footer-security">
+        ✓ Secure Admin Workspace
+      </span>
+    </footer>
+
+  </main>
+</div>

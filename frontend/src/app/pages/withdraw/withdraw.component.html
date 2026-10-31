@@ -1,0 +1,73 @@
+
+<div class="withdraw-page">
+  <header class="page-header">
+    <a routerLink="/dashboard" class="brand">Micro<span>Bank</span></a>
+    <a routerLink="/dashboard" class="back-link">← Back to Dashboard</a>
+  </header>
+
+  <main class="withdraw-container">
+    <section class="withdraw-card">
+      <div class="icon-circle">↗</div>
+
+      <p class="eyebrow">BANKING SERVICES</p>
+      <h1>Withdraw Money</h1>
+      <p class="subtitle">Withdraw funds securely from your account.</p>
+
+      <form (ngSubmit)="withdrawMoney()">
+        <label for="amount">Withdrawal amount</label>
+
+        <div class="amount-input">
+          <span>₹</span>
+          <input
+            id="amount"
+            type="number"
+            name="amount"
+            [(ngModel)]="amount"
+            min="0.01"
+            max="1000000"
+            step="0.01"
+            placeholder="0.00"
+            required
+          />
+        </div>
+
+        <p class="helper-text">Enter the amount you want to withdraw.</p>
+
+        <p class="section-label">QUICK SELECT</p>
+
+        <div class="quick-amounts">
+          <button type="button" (click)="setAmount(100)">₹100</button>
+          <button type="button" (click)="setAmount(500)">₹500</button>
+          <button type="button" (click)="setAmount(1000)">₹1,000</button>
+          <button type="button" (click)="setAmount(2000)">₹2,000</button>
+        </div>
+
+        <div *ngIf="errorMessage" class="message error">
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="message success">
+          {{ successMessage }}
+          <p *ngIf="balance !== null">
+            Updated balance: <strong>₹{{ balance }}</strong>
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          class="withdraw-button"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Processing...' : 'Confirm Withdrawal →' }}
+        </button>
+      </form>
+
+      <div class="security-note">
+        <span>🔒</span>
+        <p>Your withdrawal is processed securely through MicroBank.</p>
+      </div>
+    </section>
+
+    <p class="footer-note">MicroBank · Secure Banking Demo</p>
+  </main>
+</div>
